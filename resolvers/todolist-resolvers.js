@@ -12,7 +12,7 @@ module.exports = {
 		 	@param 	 {object} req - the request object containing a user id
 			@returns {array} an array of todolist objects on success, and an empty array on failure
 		**/
-		getAllTodos: async (_, __, { req }) => {
+		getAllMaps: async (_, __, { req }) => {
 			const _id = new ObjectId(req.userId);
 			if(!_id) { return([])};
 			const todolists = await Todolist.find({owner: _id}).sort({updatedAt: 'descending'});

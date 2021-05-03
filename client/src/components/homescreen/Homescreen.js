@@ -35,7 +35,7 @@ const Homescreen = (props) => {
 	document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
-	let todolists 	= [];
+	let maps 	= [];
 	let SidebarData = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
 	const [activeList, setActiveList] 		= useState({});
@@ -52,21 +52,21 @@ const Homescreen = (props) => {
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
 		// Assign todolists 
-		// for(let todo of data.getAllTodos) {
-		// 	todolists.push(todo)
-		// }
-		// // if a list is selected, shift it to front of todolists
-		// if(activeList._id) {
-		// 	let selectedListIndex = todolists.findIndex(entry => entry._id === activeList._id);
-		// 	let removed = todolists.splice(selectedListIndex, 1);
-		// 	todolists.unshift(removed[0]);
-		// }
-		// // create data for sidebar links
-		// for(let todo of todolists) {
-		// 	if(todo) {
-		// 		SidebarData.push({_id: todo._id, name: todo.name});
-		// 	}	
-		// }
+		for(let map of data.getAllMaps) {
+			maps.push(map)
+		}
+		// if a list is selected, shift it to front of todolists
+		if(activeList._id) {
+			let selectedListIndex = maps.findIndex(entry => entry._id === activeList._id);
+			let removed = maps.splice(selectedListIndex, 1);
+			maps.unshift(removed[0]);
+		}
+		// create data for sidebar links
+		for(let map of maps) {
+			if(map) {
+				SidebarData.push({_id: map._id, name: map.name});
+			}	
+		}
 	}
 
 
@@ -81,11 +81,10 @@ const Homescreen = (props) => {
 	}
 
 	const loadTodoList = (list) => {
-		// props.tps.clearAllTransactions();
-		// setCanUndo(props.tps.hasTransactionToUndo());
-		// setCanRedo(props.tps.hasTransactionToRedo());
-		// setActiveList(list);
-
+		props.tps.clearAllTransactions();
+		setCanUndo(props.tps.hasTransactionToUndo());
+		setCanRedo(props.tps.hasTransactionToRedo());
+		setActiveList(list);
 	}
 
 	const mutationOptions = {
@@ -100,7 +99,7 @@ const Homescreen = (props) => {
 	// const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD, mutationOptions);
 	// const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM, mutationOptions);
 	// const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM, mutationOptions);
-	// const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
+	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	// const [DeleteTodolist] 			= useMutation(mutations.DELETE_TODOLIST);
 
 
@@ -174,18 +173,19 @@ const Homescreen = (props) => {
 	};
 
 	const createNewList = async () => {
-		// let list = {
-		// 	_id: '',
-		// 	name: 'Untitled',
-		// 	owner: props.user._id,
-		// 	items: [],
-		// 	sortRule: 'task',
-		// 	sortDirection: 1
-		// }
-		// const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		// if(data) {
-		// 	loadTodoList(data.addTodolist);
-		// } 	
+		let list = {
+			_id: '',
+			name: 'Untitled Map',
+			owner: props.user._id,
+			items: [],
+			sortRule: 'task',
+			sortDirection: 1
+		}
+		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		
+		if(data) {
+			loadTodoList(data.addTodolist);
+		} 	
 	};
 
 	const deleteList = async (_id) => {
@@ -255,7 +255,7 @@ const Homescreen = (props) => {
 							fetchUser={props.fetchUser} 	auth={auth} 
 							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 							reloadTodos={refetch} 			setActiveList={loadTodoList}
-							setShowEdit={setShowEdit}
+							setShowEdit={setShowEdit}		listIDs={SidebarData}
 						/>
 					</ul>
 				</WNavbar>
@@ -286,7 +286,11 @@ const Homescreen = (props) => {
 									setShowDelete={setShowDelete} 	undo={tpsUndo} redo={tpsRedo}
 									activeList={activeList} 		setActiveList={loadTodoList}
 									canUndo={canUndo} 				canRedo={canRedo}
-									sort={sort}
+									sort={sort} auth={auth}						
+
+									listIDs={SidebarData} 				activeid={activeList._id}
+									handleSetActive={handleSetActive} 	createNewList={createNewList}
+									updateListField={updateListField} 	key={activeList._id}
 								/>
 							</div>
 						:

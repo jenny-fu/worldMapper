@@ -18,15 +18,15 @@ export const GET_DB_MAPS = gql`
 			id
 			name
 			owner
-			region {
+			items {
 				_id
-				id
-				name
-				capital
-				leader
-				landmarks
-				region
+				description
+				due_date
+				assigned_to
+				completed
 			}
+			sortRule
+			sortDirection
 		}
 	}
 `;
