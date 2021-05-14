@@ -293,7 +293,8 @@ const Homescreen = (props) => {
 							</div>
 						:
 							<div className="container-primary">
-								<div className="homeImage"> /Image of World Map/ </div>
+								<img src="https://i.pinimg.com/originals/ba/fc/b8/bafcb8760fe3c0947d3b2e0c9d9eb380.jpg"
+									className="homeImage"></img>
 								<div className="homeText"> Welcome to the World Data Mapper! </div>
 							</div>
 				}
