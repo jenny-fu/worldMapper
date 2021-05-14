@@ -5,13 +5,14 @@ import { useMutation }    	from '@apollo/client';
 import { WModal, WMHeader, WMMain, WMFooter, WButton, WInput, WRow, WCol } from 'wt-frontend';
 
 const Edit = (props) => {
-	const [input, setInput] = useState({ email: '', password: '', firstName: '', lastName: '', pemail: '' });
+	const [input, setInput] = useState({ email: '', password: '', firstName: '', lastName: '', pemail: props.email });
 	const [loading, toggleLoading] = useState(false);
 	const [Edit] = useMutation(EDIT);
 
 	const updateInput = (e) => {
 		const { name, value } = e.target;
 		const updated = { ...input, [name]: value };
+		console.log(updated);
 		setInput(updated);
 	};
 
@@ -40,8 +41,8 @@ const Edit = (props) => {
 	};
 
 	return (
-		<WModal className="signup-modal"  cover="true" visible={props.setShowEdit}>
-			<WMHeader  className="modal-header" onClose={() => props.setShowEdit(false)}>
+		<WModal className="signup-modal" cover="true" visible={props.setShowEdit}>
+			<WMHeader className="modal-header" onClose={() => props.setShowEdit(false)}>
 				Update Account Information
 			</WMHeader>
 

@@ -1,7 +1,9 @@
 import React, { useState }  from 'react';
-import { WNavItem, WInput } from 'wt-frontend';
+import { WNavItem, WInput, WButton } from 'wt-frontend';
 
 const SidebarEntry = (props) => {
+    const clickDisabled = () => { };
+
     const [editing, toggleEditing] = useState(false);
     const [preEdit, setPreEdit] = useState(props.name);
     const handleEditing = (e) => {
@@ -19,10 +21,7 @@ const SidebarEntry = (props) => {
     const entryStyle = props._id === props.activeid ? 'list-item-active' : 'list-item ';
     
     return (
-        <WNavItem 
-            className={entryStyle} onDoubleClick={handleEditing} 
-            onClick={() => { props.handleSetActive(props._id) }} 
-        >
+        <WNavItem className={entryStyle} onDoubleClick={handleEditing} onClick={() => { props.handleSetActive(props._id) }} >
             {
                 editing ?   <WInput className="list-item-edit" inputClass="list-item-edit-input"
                                 onKeyDown={(e) => {if(e.keyCode === 13) handleSubmit(e)}}
@@ -32,6 +31,9 @@ const SidebarEntry = (props) => {
                                 {props.name}
                             </div>
             }
+            <WButton onClick={props.setShowDelete} wType="texted" className="delete-map" clickAnimation={"ripple-light"}>
+                <i className="material-icons">delete_outline</i>
+            </WButton>
         </WNavItem>
     );
 };

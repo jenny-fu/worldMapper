@@ -16,7 +16,7 @@ const Delete = (props) => {
 			</WMHeader >
 
             <WMMain>
-                <WButton className="modal-button cancel-button" onClick={() => props.setShowDelete(false)} wType="texted">
+                <WButton className="modal-button cancel-button" onClick={() => props.setShowDelete(false)} wType="texted" shape="rounded">
                     Cancel
 				</WButton>
                 <label className="col-spacer">&nbsp;</label>

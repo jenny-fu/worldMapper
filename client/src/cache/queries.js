@@ -15,7 +15,6 @@ export const GET_DB_MAPS = gql`
 	query GetDBMaps {
 		getAllMaps {
 			_id
-			id
 			name
 			owner
 			items {

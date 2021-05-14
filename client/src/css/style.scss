@@ -55,6 +55,10 @@ html, body {
     background-color: $background-color;
 }
 
+li {
+    list-style-type: none;
+}
+
 .complete-task {
     color: var(--light-blue);
 }
@@ -84,6 +88,15 @@ html, body {
 
 .incomplete-task {
     color: $primary-color;
+}
+
+.delete-map {
+    color: var(--light-gray);
+}
+
+.delete-map:hover {
+    background-color: var(--warm-white-transparent);
+    border-radius: 5%;
 }
 
 .list-item-active {
@@ -234,6 +247,10 @@ html, body {
 
 .cancel-button {
     color: $text-color;
+}
+
+.cancel-button:hover {
+    background-color: var(--warm-white-transparent);
 }
 
 .undo-redo {

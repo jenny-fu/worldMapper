@@ -79,8 +79,8 @@ module.exports = {
 			const currentUser = await User.findOne({email: pemail});
 			const alreadyRegistered = await User.findOne({email: email});
 			const id = new ObjectId(currentUser._id);
-			const compid = new ObjectId(alreadyRegistered._id);
-			if(alreadyRegistered && (id != compid)) {
+			// const compid = new ObjectId(alreadyRegistered._id);
+			if(alreadyRegistered && (pemail != email)) {
 				console.log('User with that email already registered.');
 				return(new User({
 					_id: '',

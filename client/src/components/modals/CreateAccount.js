@@ -9,11 +9,9 @@ const CreateAccount = (props) => {
 	const [loading, toggleLoading] = useState(false);
 	const [Register] = useMutation(REGISTER);
 
-	
 	const updateInput = (e) => {
 		const { name, value } = e.target;
 		const updated = { ...input, [name]: value };
-        console.log(updated);
 		setInput(updated);
 	};
 
@@ -42,7 +40,7 @@ const CreateAccount = (props) => {
 	};
 
 	return (
-		<WModal className="signup-modal"  cover="true" visible={props.setShowCreate}>
+		<WModal className="signup-modal" cover="true" visible={props.setShowCreate}>
 			<WMHeader  className="modal-header" onClose={() => props.setShowCreate(false)}>
 				Sign Up
 			</WMHeader>

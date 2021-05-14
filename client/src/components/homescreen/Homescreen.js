@@ -35,6 +35,7 @@ const Homescreen = (props) => {
 	document.onkeydown = keyCombination;
 
 	const auth = props.user === null ? false : true;
+	let email = null;
 	let maps 	= [];
 	let SidebarData = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
@@ -45,9 +46,9 @@ const Homescreen = (props) => {
 	const [showEdit, toggleShowEdit] 		= useState(false);
 	const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
 	const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
-
 	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
 
+	if(auth) { email = props.user.email; }
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
 	if(data) { 
@@ -68,14 +69,12 @@ const Homescreen = (props) => {
 			}	
 		}
 	}
-
-
 	
 	// NOTE: might not need to be async
 	const reloadList = async () => {
 		// if (activeList._id) {
 		// 	let tempID = activeList._id;
-		// 	let list = todolists.find(list => list._id === tempID);
+		// 	let list = maps.find(list => list._id === tempID);
 		// 	setActiveList(list);
 		// }
 	}
@@ -88,19 +87,19 @@ const Homescreen = (props) => {
 	}
 
 	const mutationOptions = {
-		// refetchQueries: [{ query: GET_DB_TODOS }], 
-		// awaitRefetchQueries: true,
-		// onCompleted: () => reloadList()
+		refetchQueries: [{ query: GET_DB_MAPS }], 
+		awaitRefetchQueries: true,
+		onCompleted: () => reloadList()
 	}
 
 	// const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS, mutationOptions);
 	// const [sortTodoItems] 		= useMutation(mutations.SORT_ITEMS, mutationOptions);
 	// const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD, mutationOptions);
-	// const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD, mutationOptions);
+	const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD, mutationOptions);
 	// const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM, mutationOptions);
 	// const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM, mutationOptions);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
-	// const [DeleteTodolist] 			= useMutation(mutations.DELETE_TODOLIST);
+	const [DeleteTodolist] 			= useMutation(mutations.DELETE_TODOLIST);
 
 
 	
@@ -182,26 +181,25 @@ const Homescreen = (props) => {
 			sortDirection: 1
 		}
 		const { data } = await AddTodolist({ variables: { todolist: list }, refetchQueries: [{ query: GET_DB_MAPS }] });
-		
 		if(data) {
 			loadTodoList(data.addTodolist);
 		} 	
 	};
 
 	const deleteList = async (_id) => {
-		// DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_TODOS }] });
-		// loadTodoList({});
+		DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_MAPS }] });
+		loadTodoList({});
 	};
 
 	const updateListField = async (_id, field, value, prev) => {
-		// let transaction = new UpdateListField_Transaction(_id, field, prev, value, UpdateTodolistField);
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
+		let transaction = new UpdateListField_Transaction(_id, field, prev, value, UpdateTodolistField);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
 	};
 
 	const handleSetActive = (_id) => {
-		// const selectedList = todolists.find(todo => todo._id === _id);
-		// loadTodoList(selectedList);
+		const selectedList = maps.find(todo => todo._id === _id);
+		loadTodoList(selectedList);
 	};
 
 	const setShowLogin = () => {
@@ -252,7 +250,7 @@ const Homescreen = (props) => {
 					</ul>
 					<ul>
 						<NavbarOptions
-							fetchUser={props.fetchUser} 	auth={auth} 
+							fetchUser={props.fetchUser} 	auth={auth}
 							setShowCreate={setShowCreate} 	setShowLogin={setShowLogin}
 							reloadTodos={refetch} 			setActiveList={loadTodoList}
 							setShowEdit={setShowEdit}		listIDs={SidebarData}
@@ -315,7 +313,7 @@ const Homescreen = (props) => {
 			}
 
 			{
-				showEdit && (<Edit user={auth} fetchUser={props.fetchUser} reloadTodos={refetch} setShowEdit={setShowEdit} />)
+				showEdit && (<Edit email={email} fetchUser={props.fetchUser} reloadTodos={refetch} setShowEdit={setShowEdit} />)
 			}
 
 		</WLayout>

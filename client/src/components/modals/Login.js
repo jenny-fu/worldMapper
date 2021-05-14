@@ -18,7 +18,6 @@ const Login = (props) => {
 	}
 
 	const handleLogin = async (e) => {
-
 		const { loading, error, data } = await Login({ variables: { ...input } });
 		if (loading) { toggleLoading(true) };
 		if (data.login._id === null) {
@@ -32,7 +31,6 @@ const Login = (props) => {
 			props.setShowLogin(false);
 		};
 	};
-
 
 	return (
 		<WModal className="login-modal" cover="true" visible={props.setShowLogin}>

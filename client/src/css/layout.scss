@@ -22,6 +22,14 @@ html {
 
 .wsidebar {
     scrollbar-width: thin;
+    overflow-y: scroll;
+}
+
+.delete-map {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin: 3%;
+    margin-left: 80%;
 }
 
 .homeImage{
@@ -42,11 +50,15 @@ html {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1.125rem;
-    padding: 12px 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin: 3%;
+    margin-left: 10%;
+    position: absolute;
 }
 
 .list-item-active {
-    padding-left: 24px;
+    padding-left: 10px;
     // transform: scale(1);
     // transition: 0.3s padding-left ease-in-out;
 
@@ -67,7 +79,7 @@ html {
 .list-item:hover {
     transform: scale(1);
     transition: 0.1s padding-left ease-in-out;
-    padding-left: 24px;
+    padding-left: 10px;
 }
 
 .mapHeader{
@@ -247,10 +259,6 @@ html {
 .col-spacer {
     width: 24px;
     display: inline-block;
-}
-
-.wsidebar {
-    overflow-y: scroll;
 }
 
 .list-item-edit, .table-input, .table-select {

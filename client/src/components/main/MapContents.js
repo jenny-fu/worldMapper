@@ -13,13 +13,13 @@ const MapContents = (props) => {
 					<SidebarList
 						activeid={props.activeid} handleSetActive={props.handleSetActive}
                 		listIDs={props.listIDs} createNewList={props.createNewList}
-                		updateListField={props.updateListField}
+                		updateListField={props.updateListField} setShowDelete={props.setShowDelete}
 					/>
 				</WSidebar>
 			</WLSide>
 			<div className="mapImage"> /image of world map/ </div>
 			<div className="new-map">
-				<WButton onclick={props.createNewList} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
+				<WButton onClick={props.createNewList} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
 					Create a New Map
 				</WButton>
 			</div>
