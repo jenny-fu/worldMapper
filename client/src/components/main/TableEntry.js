@@ -3,10 +3,6 @@ import { WButton, WInput, WRow, WCol } from 'wt-frontend';
 
 const TableEntry = (props) => {
     const { data } = props;
-
-    const completeStyle = data.completed ? ' complete-task' : ' incomplete-task';
-    const assignedToStyle = data.completed ? 'complete-task-assignedTo' : 'incomplete-task-assignedTo';
-
     const description = data.description;
     const due_date = data.due_date;
     const status = data.completed ? 'complete' : 'incomplete';
@@ -19,8 +15,6 @@ const TableEntry = (props) => {
     const [editingDescr, toggleDescrEdit] = useState(false);
     const [editingStatus, toggleStatusEdit] = useState(false);
     const [editingAssigned, toggleAssignEdit] = useState(false);
-
-    const disabledButton = () => {}
 
     const handleDateEdit = (e) => {
         toggleDateEdit(false);
@@ -61,7 +55,15 @@ const TableEntry = (props) => {
 
     return (
         <WRow className='table-entry'>
-            <WCol size="3">
+            <WCol size="1">
+                <div className="del-item">
+                    <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">
+                        <i className="material-icons">close</i>
+                    </WButton>
+                </div>
+            </WCol>
+
+            <WCol size="2">
                 {
                     editingDescr || description === ''
                         ? <WInput
@@ -100,13 +102,16 @@ const TableEntry = (props) => {
                         <option value="complete">complete</option>
                         <option value="incomplete">incomplete</option>
                     </select>
-                        : <div onClick={() => toggleStatusEdit(!editingStatus)} className={`${completeStyle} table-text`}>
+                        : <div onClick={() => toggleStatusEdit(!editingStatus)} className='table-text'>
                             {status}
                         </div>
                 }
             </WCol>
 
             <WCol size="2">
+                <div className="table-text"> /flag/ </div>
+            </WCol>
+            <WCol size="3">
                 {
                     editingAssigned || assigned_to === ''
                         ? <WInput
@@ -116,24 +121,11 @@ const TableEntry = (props) => {
                             autoFocus={true} defaultValue={assigned_to} type='text'
                             /*wType="outlined" barAnimation="solid" */inputclass="table-input-class"
                         />
-                        : <div className={`${assignedToStyle} table-text`}
+                        : <div className='table-text'
                             onClick={() => toggleAssignEdit(!editingAssigned)}
                         >{assigned_to}
                         </div>
                 }
-            </WCol>
-            <WCol size="3">
-                <div className='button-group'>
-                    <WButton className={canMoveUp ? "table-entry-buttons" : "table-entry-buttons-disabled"} onClick={canMoveUp ? () => props.reorderItem(data._id, -1) : disabledButton } wType="texted">
-                        <i className="material-icons">expand_less</i>
-                    </WButton>
-                    <WButton className={canMoveDown ? "table-entry-buttons" : "table-entry-buttons-disabled"} onClick={canMoveDown ? () => props.reorderItem(data._id, 1) : disabledButton } wType="texted">
-                        <i className="material-icons">expand_more</i>
-                    </WButton>
-                    <WButton className="table-entry-buttons" onClick={() => props.deleteItem(data, props.index)} wType="texted">
-                        <i className="material-icons">close</i>
-                    </WButton>
-                </div>
             </WCol>
         </WRow>
     );

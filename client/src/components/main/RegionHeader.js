@@ -5,7 +5,6 @@ import { WButton, WRow, WCol } from 'wt-frontend';
 
 const RegionHeader = (props) => {
     const clickDisabled = () => { };
-    const buttonStyle = props.disabled ? ' table-header-button-disabled ' : 'table-header-button ';
     
     const undoOptions = {
         className: props.disabled || !props.canUndo ? ' table-header-button-disabled ' : 'table-header-button',
@@ -26,7 +25,7 @@ const RegionHeader = (props) => {
     return (
         <WRow className="region-header">
                 <WCol className="table-header-buttons" size="3">
-                    <WButton onClick={props.disabled ? clickDisabled : props.addItem} wType="texted" className={`${buttonStyle}`} clickAnimation={props.disabled ? "" : "ripple-light" }>
+                    <WButton onClick={props.addItem} wType="texted" className="table-header-button" clickAnimation={"ripple-light" }>
                         <i className="material-icons">add</i>
                     </WButton>
                     <WButton {...undoOptions}>
@@ -36,7 +35,7 @@ const RegionHeader = (props) => {
                             <i className="material-icons">redo</i>
                     </WButton>
                 </WCol>
-                <WCol size="2">
+                <WCol size="3">
                     <div className="region-name title-name">Region Name:</div>
                 </WCol>
                 <WCol size="1"></WCol>

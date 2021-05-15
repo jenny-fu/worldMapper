@@ -11,7 +11,8 @@ const SidebarContents = (props) => {
             <SidebarList
                 activeid={props.activeid} handleSetActive={props.handleSetActive}
                 listIDs={props.listIDs} createNewList={props.createNewList}
-                updateListField={props.updateListField}
+                updateListField={props.updateListField} activeButNot={props.activeButNot}
+                maps={props.maps}
             />
         </>
     );

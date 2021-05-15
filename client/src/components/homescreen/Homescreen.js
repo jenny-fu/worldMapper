@@ -43,6 +43,7 @@ const Homescreen = (props) => {
 	let SidebarData = [];
 	// const [sortRule, setSortRule] = useState('unsorted'); // 1 is ascending, -1 desc
 	const [activeList, setActiveList] 		= useState({});
+	const [selectedDelete, activeButNot] 	= useState({});
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [showLogin, toggleShowLogin] 		= useState(false);
 	const [showMap, toggleShowMap] 			= useState(false);
@@ -78,11 +79,11 @@ const Homescreen = (props) => {
 	
 	// NOTE: might not need to be async
 	const reloadList = async () => {
-		// if (activeList._id) {
-		// 	let tempID = activeList._id;
-		// 	let list = maps.find(list => list._id === tempID);
-		// 	setActiveList(list);
-		// }
+		if (activeList._id) {
+			let tempID = activeList._id;
+			let list = maps.find(list => list._id === tempID);
+			setActiveList(list);
+		}
 	}
 
 	const loadTodoList = (list) => {
@@ -100,14 +101,12 @@ const Homescreen = (props) => {
 
 	// const [ReorderTodoItems] 		= useMutation(mutations.REORDER_ITEMS, mutationOptions);
 	// const [sortTodoItems] 		= useMutation(mutations.SORT_ITEMS, mutationOptions);
-	// const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD, mutationOptions);
+	const [UpdateTodoItemField] 	= useMutation(mutations.UPDATE_ITEM_FIELD, mutationOptions);
 	const [UpdateTodolistField] 	= useMutation(mutations.UPDATE_TODOLIST_FIELD, mutationOptions);
-	// const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM, mutationOptions);
-	// const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM, mutationOptions);
+	const [DeleteTodoItem] 			= useMutation(mutations.DELETE_ITEM, mutationOptions);
+	const [AddTodoItem] 			= useMutation(mutations.ADD_ITEM, mutationOptions);
 	const [AddTodolist] 			= useMutation(mutations.ADD_TODOLIST);
 	const [DeleteTodolist] 			= useMutation(mutations.DELETE_TODOLIST);
-
-
 	
 	const tpsUndo = async () => {
 		const ret = await props.tps.undoTransaction();
@@ -126,47 +125,46 @@ const Homescreen = (props) => {
 	}
 
 	const addItem = async () => {
-		// let list = activeList;
-		// const items = list.items;
-		// const newItem = {
-		// 	_id: '',
-		// 	description: 'No Description',
-		// 	due_date: 'No Date',
-		// 	assigned_to: 'No One',
-		// 	completed: false
-		// };
-		// let opcode = 1;
-		// let itemID = newItem._id;
-		// let listID = activeList._id;
-		// let transaction = new UpdateListItems_Transaction(listID, itemID, newItem, opcode, AddTodoItem, DeleteTodoItem);
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
+		let list = activeList;
+		const items = list.items;
+		const newItem = {
+			_id: '',
+			description: 'No Description',
+			due_date: 'No Date',
+			assigned_to: 'No One',
+			completed: false
+		};
+		let opcode = 1;
+		let itemID = newItem._id;
+		let listID = activeList._id;
+		let transaction = new UpdateListItems_Transaction(listID, itemID, newItem, opcode, AddTodoItem, DeleteTodoItem);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
 	};
 
 	const deleteItem = async (item, index) => {
-		// let listID = activeList._id;
-		// let itemID = item._id;
-		// let opcode = 0;
-		// let itemToDelete = {
-		// 	_id: item._id,
-		// 	description: item.description,
-		// 	due_date: item.due_date,
-		// 	assigned_to: item.assigned_to,
-		// 	completed: item.completed
-		// }
-		// let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem, index);
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
-
+		let listID = activeList._id;
+		let itemID = item._id;
+		let opcode = 0;
+		let itemToDelete = {
+			_id: item._id,
+			description: item.description,
+			due_date: item.due_date,
+			assigned_to: item.assigned_to,
+			completed: item.completed
+		}
+		let transaction = new UpdateListItems_Transaction(listID, itemID, itemToDelete, opcode, AddTodoItem, DeleteTodoItem, index);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
 	};
 
 	const editItem = async (itemID, field, value, prev) => {
-		// let flag = 0;
-		// if (field === 'completed') flag = 1;
-		// let listID = activeList._id;
-		// let transaction = new EditItem_Transaction(listID, itemID, field, prev, value, flag, UpdateTodoItemField);
-		// props.tps.addTransaction(transaction);
-		// tpsRedo();
+		let flag = 0;
+		if (field === 'completed') flag = 1;
+		let listID = activeList._id;
+		let transaction = new EditItem_Transaction(listID, itemID, field, prev, value, flag, UpdateTodoItemField);
+		props.tps.addTransaction(transaction);
+		tpsRedo();
 	};
 
 	const reorderItem = async (itemID, dir) => {
@@ -192,10 +190,15 @@ const Homescreen = (props) => {
 		} 	
 	};
 
-	const deleteList = async (_id) => {
-		DeleteTodolist({ variables: { _id: _id }, refetchQueries: [{ query: GET_DB_MAPS }] });
+	const deleteList = async () => {
+		let id = selectedDelete._id;
+		DeleteTodolist({ variables: { _id: id }, refetchQueries: [{ query: GET_DB_MAPS }] });
 		loadTodoList({});
 	};
+
+	const reset = () => {
+		loadTodoList({});
+	}
 
 	const updateListField = async (_id, field, value, prev) => {
 		let transaction = new UpdateListField_Transaction(_id, field, prev, value, UpdateTodolistField);
@@ -263,7 +266,9 @@ const Homescreen = (props) => {
 				<WNavbar color="colored">
 					<ul>
 						<WNavItem>
-							<Logo className='logo' />
+							<Logo className='logo'
+								active={activeList._id}		reset={reset}
+							/>
 						</WNavItem>
 					</ul>
 					<ul>
@@ -281,7 +286,7 @@ const Homescreen = (props) => {
 					<div className="container-primary">
 						<RegionHeader
 							activeList={activeList}			undo={tpsUndo} redo={tpsRedo}
-							canUndo={canUndo} 				canRedo={canRedo}
+							canUndo={canUndo} 				canRedo={canRedo} addItem={addItem}
 						/>
 						<TableHeader
 							// disabled={!props.activeList._id}        
@@ -313,8 +318,9 @@ const Homescreen = (props) => {
 											activeList={activeList} 		setActiveList={loadTodoList}
 											listIDs={SidebarData}			createNewList={createNewList}
 											activeid={activeList._id}		key={activeList._id}
+											setShowMap={setShowMap}			activeButNot={activeButNot}
+											maps={maps}
 											handleSetActive={handleSetActive}
-											setShowMap={setShowMap}
 										/>
 									</div>
 								:
@@ -329,7 +335,7 @@ const Homescreen = (props) => {
 			}
 
 			{
-				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
+				showDelete && (<Delete deleteList={deleteList} setShowDelete={setShowDelete} />)
 			}
 
 			{

@@ -14,6 +14,7 @@ const MapContents = (props) => {
 						activeid={props.activeid} handleSetActive={props.handleSetActive}
                 		listIDs={props.listIDs} createNewList={props.createNewList}
                 		updateListField={props.updateListField} setShowDelete={props.setShowDelete}
+						activeButNot={props.activeButNot} maps={props.maps}
 					/>
 				</WSidebar>
 			</WLSide>
