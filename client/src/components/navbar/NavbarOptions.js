@@ -19,8 +19,7 @@ const LoggedIn = (props) => {
     return (
         <>
             <WNavItem hoverAnimation="lighten">
-                <WButton className="navbar-options" onClick={props.setShowEdit} wType="texted" hoverAnimation="text-primary">
-                    [Name]
+                <WButton className="navbar-options" id="user-name" onClick={props.setShowEdit} wType="texted" hoverAnimation="text-primary">
                 </WButton>
             </WNavItem>
             <WNavItem hoverAnimation="lighten">

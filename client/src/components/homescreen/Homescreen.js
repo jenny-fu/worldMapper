@@ -48,6 +48,8 @@ const Homescreen = (props) => {
 	const [canRedo, setCanRedo] = useState(props.tps.hasTransactionToRedo());
 	const { loading, error, data, refetch } = useQuery(GET_DB_MAPS);
 
+	let button = document.getElementById("user-name");
+	if(button && auth) button.innerHTML = props.user.firstName + " " + props.user.lastName;
 	if(auth) { email = props.user.email; }
 	if(loading) { console.log(loading, 'loading'); }
 	if(error) { console.log(error, 'error'); }
@@ -258,22 +260,6 @@ const Homescreen = (props) => {
 					</ul>
 				</WNavbar>
 			</WLHeader>
-
-			{/* <WLSide side="left">
-				<WSidebar>
-					{
-						activeList ? 
-							<SidebarContents
-								listIDs={SidebarData} 				activeid={activeList._id} auth={auth}
-								handleSetActive={handleSetActive} 	createNewList={createNewList}
-								updateListField={updateListField} 	key={activeList._id}
-							/>
-							:
-							<></>
-					}
-				</WSidebar>
-			</WLSide> */}
-
 			<WMMain>
 				{
 					auth ? 
