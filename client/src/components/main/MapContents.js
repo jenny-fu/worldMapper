@@ -19,7 +19,7 @@ const MapContents = (props) => {
 			</WLSide>
 			<img src="https://data.whicdn.com/images/349168681/original.jpg" className="mapImage"></img>
 			<div className="new-map">
-				<WButton onClick={props.createNewList} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
+				<WButton onClick={props.setShowMap} span clickAnimation="ripple-light" hoverAnimation="darken" shape="rounded" color="primary">
 					Create a New Map
 				</WButton>
 			</div>

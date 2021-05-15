@@ -11,7 +11,7 @@ const TableContents = (props) => {
     } 
     
     return (
-        entries !== undefined && entries.length > 0 ? <div className=' table-entries container-primary'>
+        entries !== undefined && entries.length > 0 ? <div className=' table-entries'>
             {
                 entries.map((entry, index) => (
                     <TableEntry

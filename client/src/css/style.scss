@@ -29,7 +29,7 @@
     --light-orange: #f5bc75;
     --light-blue: #8ed4f8;
     --light-purple: #dbbdf9;
-    --light-pink: #fbb4d2;
+    --light-pink: #caacc3;
     --light-yellow: #e6db74;
     --light-beige: #d9d6cc;
     --light-gray: #e9edf0;
@@ -94,10 +94,8 @@ li {
     border-radius: 5%;
 }
 
-.list-item-active {
+.list-text:hover {
     color: $primary-color;
-    font-weight: bold;
-
 }
 
 .list-item {
@@ -136,6 +134,19 @@ li {
 
 .nothing-msg {
     color: $primary-color;
+}
+
+.region-header{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.region-name{
+    color: white;
+}
+
+.actual-name {
+    color: var(--light-blue);
 }
 
 .sidebar-header {
@@ -193,12 +204,13 @@ li {
 }
 
 .table-header {
-    border-bottom: 2px $text-color dotted;
+    background-color: var(--deep-blue-darker);
+    border-bottom: 1px $text-color solid;
+
 }
 
 .table-header-section {
-    font-size: 1.375rem;
-    font-weight: bold;
+    font-size: 20px;
     color: $text-color;
 }
 

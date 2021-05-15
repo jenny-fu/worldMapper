@@ -1,16 +1,19 @@
 import Logo 							from '../navbar/Logo';
 import Login 							from '../modals/Login';
+import CreateMap 						from '../modals/CreateMap';
 import Delete 							from '../modals/Delete';
 import Edit 							from '../modals/Edit';
 import MapContents 						from '../main/MapContents';
+import TableContents 					from '../main/TableContents';
+import TableHeader   					from '../main/TableHeader';
 import CreateAccount 					from '../modals/CreateAccount';
 import NavbarOptions 					from '../navbar/NavbarOptions';
 import * as mutations 					from '../../cache/mutations';
-import SidebarContents 					from '../sidebar/SidebarContents';
+import RegionHeader						from '../main/RegionHeader';
 import { GET_DB_MAPS } 					from '../../cache/queries';
 import React, { useState } 				from 'react';
 import { useMutation, useQuery } 		from '@apollo/client';
-import { WNavbar, WSidebar, WNavItem } 	from 'wt-frontend';
+import { WNavbar, WButton, WNavItem } 	from 'wt-frontend';
 import { WLayout, WLHeader, WMMain, WLSide } from 'wt-frontend';
 import { UpdateListField_Transaction, 
 	SortItems_Transaction,
@@ -42,6 +45,7 @@ const Homescreen = (props) => {
 	const [activeList, setActiveList] 		= useState({});
 	const [showDelete, toggleShowDelete] 	= useState(false);
 	const [showLogin, toggleShowLogin] 		= useState(false);
+	const [showMap, toggleShowMap] 			= useState(false);
 	const [showCreate, toggleShowCreate] 	= useState(false);
 	const [showEdit, toggleShowEdit] 		= useState(false);
 	const [canUndo, setCanUndo] = useState(props.tps.hasTransactionToUndo());
@@ -173,10 +177,10 @@ const Homescreen = (props) => {
 
 	};
 
-	const createNewList = async () => {
+	const createNewList = async (title) => {
 		let list = {
 			_id: '',
-			name: 'Untitled Map',
+			name: title,
 			owner: props.user._id,
 			items: [],
 			sortRule: 'task',
@@ -208,6 +212,7 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowCreate(false);
 		toggleShowEdit(false);
+		toggleShowMap(false);
 		toggleShowLogin(!showLogin);
 	};
 
@@ -215,6 +220,7 @@ const Homescreen = (props) => {
 		toggleShowDelete(false);
 		toggleShowLogin(false);
 		toggleShowEdit(false);
+		toggleShowMap(false);
 		toggleShowCreate(!showCreate);
 	};
 
@@ -222,6 +228,7 @@ const Homescreen = (props) => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
 		toggleShowEdit(false);
+		toggleShowMap(false);
 		toggleShowDelete(!showDelete);
 	};
 
@@ -229,7 +236,16 @@ const Homescreen = (props) => {
 		toggleShowCreate(false);
 		toggleShowLogin(false);
 		toggleShowDelete(false);
+		toggleShowMap(false);
 		toggleShowEdit(!showEdit);
+	};
+
+	const setShowMap = () => {
+		toggleShowCreate(false);
+		toggleShowLogin(false);
+		toggleShowDelete(false);
+		toggleShowEdit(false);
+		toggleShowMap(!showMap);
 	};
 	
 	const sort = (criteria) => {
@@ -260,32 +276,57 @@ const Homescreen = (props) => {
 					</ul>
 				</WNavbar>
 			</WLHeader>
-			<WMMain>
-				{
-					auth ? 
-							<div className="container-primary">
-								<MapContents
-									addItem={addItem} 				deleteItem={deleteItem}
-									editItem={editItem} 			reorderItem={reorderItem}
-									setShowDelete={setShowDelete} 	undo={tpsUndo} redo={tpsRedo}
-									activeList={activeList} 		setActiveList={loadTodoList}
-									canUndo={canUndo} 				canRedo={canRedo}
-									sort={sort} auth={auth}						
+			{ 
+				activeList._id ?
+					<div className="container-primary">
+						<RegionHeader
+							activeList={activeList}			undo={tpsUndo} redo={tpsRedo}
+							canUndo={canUndo} 				canRedo={canRedo}
+						/>
+						<TableHeader
+							// disabled={!props.activeList._id}        
+							addItem={props.addItem}
+							undo={props.undo} redo={props.redo}     canUndo={props.canUndo} 
+							canRedo={props.canRedo}                 setShowDelete={props.setShowDelete}
+							setActiveList={props.setActiveList}     sort={props.sort}
+						/>
+						<TableContents
+							addItem={addItem} 				deleteItem={deleteItem}
+							editItem={editItem} 			reorderItem={reorderItem}
+							setShowDelete={setShowDelete} 	undo={tpsUndo} redo={tpsRedo}
+							activeList={activeList} 		setActiveList={loadTodoList}
+							canUndo={canUndo} 				canRedo={canRedo}
+							sort={sort} auth={auth}						
 
-									listIDs={SidebarData} 				activeid={activeList._id}
-									handleSetActive={handleSetActive} 	createNewList={createNewList}
-									updateListField={updateListField} 	key={activeList._id}
-								/>
-							</div>
-						:
-							<div className="container-primary">
-								<img src="https://i.pinimg.com/originals/ba/fc/b8/bafcb8760fe3c0947d3b2e0c9d9eb380.jpg"
-									className="homeImage"></img>
-								<div className="homeText"> Welcome to the World Data Mapper! </div>
-							</div>
-				}
-
-			</WMMain>
+							listIDs={SidebarData} 				activeid={activeList._id}
+							handleSetActive={handleSetActive} 	createNewList={createNewList}
+							updateListField={updateListField} 	key={activeList._id}
+						/>
+					</div>
+				:
+					<WMMain>
+						{
+							auth ? 
+									<div className="container-primary">
+										<MapContents
+											setShowDelete={setShowDelete}	sort={sort} auth={auth}
+											activeList={activeList} 		setActiveList={loadTodoList}
+											listIDs={SidebarData}			createNewList={createNewList}
+											activeid={activeList._id}		key={activeList._id}
+											handleSetActive={handleSetActive}
+											setShowMap={setShowMap}
+										/>
+									</div>
+								:
+									<div className="container-primary">
+										<img src="https://i.pinimg.com/originals/ba/fc/b8/bafcb8760fe3c0947d3b2e0c9d9eb380.jpg"
+											className="homeImage"></img>
+										<div className="homeText"> Welcome to the World Data Mapper! </div>
+									</div>
+							
+						}
+					</WMMain>
+			}
 
 			{
 				showDelete && (<Delete deleteList={deleteList} activeid={activeList._id} setShowDelete={setShowDelete} />)
@@ -301,6 +342,10 @@ const Homescreen = (props) => {
 
 			{
 				showEdit && (<Edit email={email} fetchUser={props.fetchUser} reloadTodos={refetch} setShowEdit={setShowEdit} />)
+			}
+
+			{
+				showMap && (<CreateMap createNewList={createNewList} fetchUser={props.fetchUser} reloadTodos={refetch} setShowMap={setShowMap} />)
 			}
 
 		</WLayout>
