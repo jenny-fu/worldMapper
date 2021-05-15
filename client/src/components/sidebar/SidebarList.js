@@ -4,6 +4,7 @@ import SidebarEntry from './SidebarEntry';
 const SidebarList = (props) => {
     let tempID = 0
     return (
+        (props.maps.length > 0) ?
         <>
             {
                 props.listIDs &&
@@ -17,6 +18,7 @@ const SidebarList = (props) => {
                 ))
             }
         </>
+        :<h2 className="nothing-msg"> No maps added! </h2> 
     );
 };
 
