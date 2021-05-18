@@ -363,7 +363,7 @@ const Homescreen = (props) => {
 							setShowCreate={setShowCreate} setShowLogin={setShowLogin}
 							reloadTodos={refetch} setActiveList={loadTodoList}
 							setShowEdit={setShowEdit} listIDs={SidebarData}
-						// setActiveRegion={setActiveRegionID}
+							setActiveRegion={setActiveRegionID}
 						/>
 					</ul>
 				</WNavbar>

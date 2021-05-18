@@ -14,7 +14,7 @@ const LoggedIn = (props) => {
             let reset = await client.resetStore();
             if (reset){
                 props.setActiveList({});
-                // props.setActiveRegion('');
+                props.setActiveRegion('');
             }
         }
     };
@@ -57,7 +57,7 @@ const NavbarOptions = (props) => {
         <>
             {
                 props.auth === false ? <LoggedOut setShowLogin={props.setShowLogin} setShowCreate={props.setShowCreate} />
-                    : <LoggedIn fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} setShowEdit={props.setShowEdit} />
+                    : <LoggedIn setActiveRegion={props.setActiveRegion} fetchUser={props.fetchUser} setActiveList={props.setActiveList} logout={props.logout} setShowEdit={props.setShowEdit} />
             }
         </>
 
