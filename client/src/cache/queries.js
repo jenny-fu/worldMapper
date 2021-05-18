@@ -17,12 +17,14 @@ export const GET_DB_MAPS = gql`
 			_id
 			name
 			owner
-			items {
+			region {
 				_id
-				description
-				due_date
-				assigned_to
-				completed
+				name
+				capital
+				leader
+				landmarks
+				parent
+				region
 			}
 			sortRule
 			sortDirection

@@ -5,7 +5,7 @@ const typeDefs = gql `
 		_id: String!
 		name: String!
 		owner: String!
-		region: [Region]
+		region: [Region]!
 	}
 	type Region {
 		_id: String!
@@ -22,9 +22,9 @@ const typeDefs = gql `
 	extend type Mutation {
 		addRegion(region: RegionInput!, _id: String!, index: Int!): String
 		deleteRegion(regionId: String!, _id: String!): [Region]		
-		updateRegionField(regionId: String!, _id: String!, field: String!, value: String!, flag: Int!): [Region]
-		addRegionLandmark(_id: String!, regionId: String!, value: String!, flag: Int!): [Region]
-		editRegionLandmark(_id: String!, regionId: String!, value: String!, landmarkIndex: Int!, flag: Int!): [Region]
+		updateRegionField(regionId: String!, _id: String!, field: String!, value: String!): [Region]
+		addRegionLandmark(_id: String!, regionId: String!, value: String!): [Region]
+		editRegionLandmark(_id: String!, regionId: String!, value: String!, landmarkIndex: Int!): [Region]
 		sort(type: String!, _id: String!): [Region]
 		addMap(map: MapInput!): String
 		deleteMap(_id: String!): Boolean

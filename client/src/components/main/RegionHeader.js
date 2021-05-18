@@ -40,7 +40,7 @@ const RegionHeader = (props) => {
                 </WCol>
                 <WCol size="1"></WCol>
                 <WCol size="3">
-                    <div className="region-name actual-name">{props.activeList.name} </div>
+                    <div className="region-name actual-name"> {props.activeList.name} </div>
                 </WCol>
         </WRow>
     );

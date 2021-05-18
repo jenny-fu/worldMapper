@@ -15,7 +15,7 @@ const todolistSchema = new Schema(
 			type: String,
 			required: true
 		},
-		items: [Item],
+		region: [Item],
 		sortRule: {
 			type: String, 
 			required: true

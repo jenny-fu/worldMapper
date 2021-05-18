@@ -12,7 +12,10 @@ const LoggedIn = (props) => {
         const { data } = await props.fetchUser();
         if (data) {
             let reset = await client.resetStore();
-            if (reset) props.setActiveList({});
+            if (reset){
+                props.setActiveList({});
+                // props.setActiveRegion('');
+            }
         }
     };
 

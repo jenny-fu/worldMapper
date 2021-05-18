@@ -11,11 +11,12 @@ const cache = new InMemoryCache({
 		of the number id so that objects are refered to consistently across the
 		client and server
 	*/
+	addTypename: false, //does this break anything..?
 	dataIdFromObject: object => `${object.__typename}:${object._id}`,
 	typePolicies: {
 		Todolist: {
 			fields: {
-				items: {
+				region: {
 					merge(existing, incoming){
 						return incoming
 					}

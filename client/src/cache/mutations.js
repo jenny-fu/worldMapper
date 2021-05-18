@@ -40,10 +40,16 @@ export const LOGOUT = gql`
 		logout 
 	}
 `;
-
+//-------------------------------------------------------------------------------------------------------------------
 export const ADD_ITEM = gql`
 	mutation AddItem($item: ItemInput!, $_id: String!, $index: Int!) {
 		addItem(item: $item, _id: $_id, index: $index)
+	}
+`;
+
+export const ADD_LANDMARK = gql`
+	mutation AddLandmark($name: String!, $region: ItemInput!) {
+		addLandmark(name: $name, region: $region)
 	}
 `;
 
@@ -51,22 +57,26 @@ export const DELETE_ITEM = gql`
 	mutation DeleteItem($itemId: String!, $_id: String!) {
 		deleteItem(itemId: $itemId, _id: $_id) {
 			_id
-			description
-			due_date
-			assigned_to
-			completed
+			name
+			capital
+			leader
+			landmarks
+			parent
+			region
 		}
 	}
 `;
 
 export const UPDATE_ITEM_FIELD = gql`
-	mutation UpdateItemField($_id: String!, $itemId: String!, $field: String!, $value: String!, $flag: Int!) {
-		updateItemField(_id: $_id, itemId: $itemId, field: $field, value: $value, flag: $flag) {
+	mutation UpdateItemField($_id: String!, $itemId: String!, $field: String!, $value: String!) {
+		updateItemField(_id: $_id, itemId: $itemId, field: $field, value: $value) {
 			_id
-			description
-			due_date
-			assigned_to
-			completed
+			name
+			capital
+			leader
+			landmarks
+			parent
+			region
 		}
 	}
 `;
@@ -87,10 +97,12 @@ export const SORT_ITEMS = gql`
 	mutation SortItems($_id: String!, $criteria: String!) {
 		sortItems(_id: $_id, criteria: $criteria) {
 			_id
-			description
-			due_date
-			assigned_to
-			completed
+			name
+			capital
+			leader
+			landmarks
+			parent
+			region
 		}
 	}
 `;
@@ -101,12 +113,14 @@ export const ADD_TODOLIST = gql`
 			_id
 			name
 			owner
-			items {
+			region {
 				_id
-				description
-				due_date
-				assigned_to
-				completed
+				name
+				capital
+				leader
+				landmarks
+				parent
+				region
 			}
 			sortRule
 			sortDirection

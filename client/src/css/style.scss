@@ -102,6 +102,10 @@ li {
     color: $primary-color;
 }
 
+.darken-text:hover {
+    color: $primary-color;
+}
+
 .list-item {
     cursor: pointer;
     transition: 0.05s ease-in-out;
@@ -125,7 +129,7 @@ li {
     font-weight: bold;
 } 
 
-.logo-active {
+.logo-active, .clickable {
 	cursor: pointer;
 } 
 
@@ -216,6 +220,11 @@ li {
     color: var(--warm-black);
 }
 
+.region-buttons-disabled{
+    cursor: default;
+    color: var(--warm-black);
+}
+
 .table-header {
     background-color: var(--deep-blue-darker);
     // border-bottom: 1px $text-color solid;
@@ -259,6 +268,11 @@ li {
     font-size: 28px;
 }
 
+.modal-info {
+    color: $text-color;
+    font-size: 18px;
+}
+
 .navbar-options {
     color: $text-color;
     font-size: 16px;
@@ -268,7 +282,7 @@ li {
     color: $text-color;
 }
 
-.cancel-button:hover {
+.cancel-button:hover, .table-entry-buttons:hover {
     background-color: var(--warm-white-transparent);
 }
 
@@ -283,4 +297,67 @@ li {
 .table-entry-buttons-disabled {
     color: var(--warm-black);
     cursor: default;
+}
+
+.button-text {
+    color: white;
+    cursor: default;
+}
+
+.region-flag {
+    background-color: white;
+}
+
+.region-text, .region-parent, .region-landmarks {
+    color: white;
+    font-family: 'Constolas';
+    font-size: 25px;
+}
+
+.region-text-blue {
+    color: var(--light-blue);
+    font-family: 'Constolas';
+    font-size: 25px;
+}
+
+.landmark-table, .landmark-container {
+    background-color: var(--deep-blue-darker);
+}
+
+.landmark-text{
+    color: var(--hover-light);
+    font-family: 'Constolas';
+    font-size: 18px;
+}
+
+.landmark-text:hover{
+    color: white;
+}
+
+.landmark-input, .landmark-container{
+    background-color: var(--deep-blue-lighter);
+}
+
+.landmark-text:hover > .hidden{
+    display: block;
+}
+
+.next-sib, .landmark-plus {
+    background-color: var(--button-transparent);
+    color: white;
+}
+
+.next-sib:hover, .landmark-plus:hover {
+    background-color: var(--deep-blue-lighter);
+    border-radius: 5%;
+}
+
+.landmark-line {
+    border-bottom: 1px solid var(--deep-blue-lighter);
+}
+
+.levels{
+    font-family: "Constolas", monospace;
+    text-transform: uppercase;
+    font-weight: bold;
 }

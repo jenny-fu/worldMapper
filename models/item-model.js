@@ -6,22 +6,27 @@ const itemSchema = new Schema(
 			type: ObjectId,
 			required: true
 		},
-		description: {
+		name: {
 			type: String,
 			required: true
 		},
-		due_date: {
+		capital: {
 			type: String,
 			required: true
 		},
-		assigned_to: {
+		leader: {
 			type: String,
 			required: true
 		},
-		completed: {
-			type: Boolean,
+        landmarks: {
+            type: [String],
+            required: true
+        },
+		parent: {
+			type: ObjectId,
 			required: true
-		}
+		},
+		region: [ObjectId]
 	}
 );
 

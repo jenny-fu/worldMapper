@@ -77,22 +77,20 @@ export class SortItems_Transaction extends jsTPS_Transaction{
 }
 
 export class EditItem_Transaction extends jsTPS_Transaction {
-	constructor(listID, itemID, field, prev, update, flag, callback) {
+	constructor(listID, itemID, field, prev, update, callback) {
 		super();
 		this.listID = listID;
 		this.itemID = itemID;
 		this.field = field;
 		this.prev = prev;
 		this.update = update;
-		this.flag = flag;
 		this.updateFunction = callback;
 	}	
 
 	async doTransaction() {
 		const { data } = await this.updateFunction({ 
 				variables:{  itemId: this.itemID, _id: this.listID, 
-							 field: this.field, value: this.update, 
-							 flag: this.flag 
+							 field: this.field, value: this.update
 						  }
 			});
 		return data;
@@ -102,8 +100,7 @@ export class EditItem_Transaction extends jsTPS_Transaction {
         console.log('undo: ', this.prev, this.update)
 		const { data } = await this.updateFunction({ 
 				variables:{ itemId: this.itemID, _id: this.listID, 
-							field: this.field, value: this.prev, 
-							flag: this.flag 
+							field: this.field, value: this.prev
 						  }
 			});
         if(data) console.log(data)

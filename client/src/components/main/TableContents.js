@@ -3,7 +3,7 @@ import TableEntry   from './TableEntry';
 
 const TableContents = (props) => {
 
-    let entries = props.activeList ? props.activeList.items : null;
+    let entries = props.activeList ? props.activeList.region : null;
     let entryCount = 0;
     if(entries) {
         entries = entries.filter(entry => entry !== null);
@@ -17,7 +17,9 @@ const TableContents = (props) => {
                     <TableEntry
                         data={entry} key={entry._id} index={index} entryCount={entryCount}
                         deleteItem={props.deleteItem} reorderItem={props.reorderItem}
-                        editItem={props.editItem}
+                        editItem={props.editItem} setActiveList={props.setActiveList}
+                        activeEntry={props.activeEntry} setShowDeleteR={props.setShowDeleteR}
+                        setActiveRegion={props.setActiveRegion}
                     />
                 ))
             }
